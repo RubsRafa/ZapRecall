@@ -15,18 +15,28 @@ export default function App() {
   return (
     <Container>
       <LogoContainer>
-        <img src={Logo} />
+        <img alt='' src={Logo} />
         <h1>ZapRecall</h1>
       </LogoContainer>
 
       <CaixaPerguntaFechada>
         <PerguntasTexto>Pergunta 1</PerguntasTexto>
-        <img src={SetaPlay} />
+        <img alt='' src={SetaPlay} />
       </CaixaPerguntaFechada>
 
       <CaixaPerguntaFechada>
         <PerguntasTexto>Pergunta 1</PerguntasTexto>
-        <img src={Errado} />
+        <img alt='' src={Certo} />
+      </CaixaPerguntaFechada>
+
+      <CaixaPerguntaFechada>
+        <PerguntasTexto>Pergunta 1</PerguntasTexto>
+        <img alt='' src={Quase} />
+      </CaixaPerguntaFechada>
+
+      <CaixaPerguntaFechada>
+        <PerguntasTexto>Pergunta 1</PerguntasTexto>
+        <img alt='' src={Errado} />
       </CaixaPerguntaFechada>
 
       <CaixaPerguntaAberta>
@@ -41,6 +51,7 @@ export default function App() {
           <BotaoVermelho>Não lembrei</BotaoVermelho>
           <BotaoAmarelo>Quase não lembrei</BotaoAmarelo>
           <BotaoVerde>Zap!</BotaoVerde>
+          <BotaoCinza>OI</BotaoCinza>
         </Botoes>
       </CaixaPerguntaAberta>
       
