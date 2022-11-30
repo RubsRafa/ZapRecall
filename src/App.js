@@ -7,6 +7,7 @@ import SetaVirar from './zaprecall/assets/img/seta_virar.png'
 import Certo from './zaprecall/assets/img/icone_certo.png'
 import Quase from './zaprecall/assets/img/icone_quase.png'
 import Errado from './zaprecall/assets/img/icone_erro.png'
+import GlobalStyle from './zaprecall/assets/css/globalStyles'
 
 export default function App() {
 
@@ -14,6 +15,9 @@ export default function App() {
 
   return (
     <Container>
+
+
+      <GlobalStyle />
       <LogoContainer>
         <img alt='' src={Logo} />
         <h1>ZapRecall</h1>
