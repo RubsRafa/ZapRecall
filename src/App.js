@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logo from './zaprecall/assets/img/logo.png'
 
@@ -7,7 +7,18 @@ import Cards from './componentes/Cards'
 
 export default function App() {
 
-  
+  const cards = [
+    { question: "O que é JSX?", answer: "Uma extensão da linguagem JavaScript" },
+    { question: "O React é __", answer: "Uma biblioteca JavaScript para construção de interfaces" },
+    { question: "Componentes devem iniciar com __", answer: "Letra maiúscula" },
+    { question: "Podemos colocar __ dentro do JSX", answer: "expressões" },
+    { question: "O ReactDOM nos ajuda __", answer: "Interagindo com a DOM para colocar componentes React na mesma" },
+    { question: "Usamos o npm para __", answer: "Gerenciar os pacotes necessários e suas dependências" },
+    { question: "Usamos props para __", answer: "Passar diferentes informações para componentes" },
+    { question: "Usamos estado (state) para __", answer: "Dizer para o React quais informações quando atualizadas devem renderizar a tela novamente" }
+]
+
+const [respondidas, setRespondidas] = useState(0); 
 
   return (
     <Container>
@@ -16,10 +27,10 @@ export default function App() {
         <h1>ZapRecall</h1>
       </LogoContainer>
 
-      <Cards />
-      
+      <Cards cards={cards} setRespondidas={setRespondidas} respondidas={respondidas} />
+
       <Footer>
-        0/8 CONCLUÍDOS
+        {respondidas}/{cards.length} CONCLUÍDOS
       </Footer>
     </Container>
   );
