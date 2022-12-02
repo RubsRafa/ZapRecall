@@ -29,7 +29,7 @@ const [respondidas, setRespondidas] = useState(0);
 
       <Cards cards={cards} setRespondidas={setRespondidas} respondidas={respondidas} />
 
-      <Footer>
+      <Footer data-test="footer">
         {respondidas}/{cards.length} CONCLUÍDOS
       </Footer>
     </Container>
