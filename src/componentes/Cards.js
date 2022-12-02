@@ -14,49 +14,47 @@ export default function Cards({ cards, setRespondidas, respondidas }) {
   const [numeroCards, setNumeroCards] = useState();     //numero da pergunta selecionada
   const [arrayCards, setArrayCards] = useState([])      //todas as perguntas já selecionadas
   const [resultado, setResultado] = useState (false)    //se o resultao vai aparecer
-  const [cor, setCor] = useState ('')                   //define botao resultado da resposta
+  const [botaoResultado, setBotaoResultado] = useState ('')                   //define botao resultado da resposta
   const [cardsRespondidas, setCardsRespondidas] = useState([])
+  const [corResul, setCorResul] = useState('#333333');
+  
 
   const [errados, setErrados] = useState([]);
   const [quases, setQuases] = useState([]);
   const [certos, setCertos] = useState([]);
 
   function addNumerosCards(i) {
-    console.log ('addNumerosCards')
     if (!arrayCards.includes (i)) {
       setArrayCards([...arrayCards, i])
     }
-    console.log(i)
     setNumeroCards(i);
     setPergunta(true)
   }
 
   function mostrarResposta() {
-    console.log ('mostrarResposta')
     setPergunta (false)
     setResposta(true)
   }
 
-  function esconderTudo(cor, i) {
-    console.log ('esconderTu')
+  function esconderTudo(botaoResultado, i, cor) {
     setResultado (true)
     setPergunta(false)
     setResposta(false)
-    setCor (cor)
+    setBotaoResultado (botaoResultado)
     setCardsRespondidas ([...cardsRespondidas, i])
 
-    if (cor == Errado) {
+    if (botaoResultado == Errado) {
       setErrados ([...errados, i])
     }
-    if (cor == Quase) {
+    if (botaoResultado == Quase) {
       setQuases ([...quases, i])
     }
-    if (cor == Certo) {
+    if (botaoResultado == Certo) {
       setCertos ([...certos, i])
     } 
 
     setRespondidas(respondidas + 1)
-
+    setCorResul(cor)
   }
   return (
     <>
@@ -78,17 +76,17 @@ export default function Cards({ cards, setRespondidas, respondidas }) {
           <CaixaPerguntaAberta>
             <h1 data-test="flashcard-text">{c.answer}</h1>
             <Botoes>
-              <BotaoVermelho data-test="no-btn" onClick={() => esconderTudo(Errado, i)} >Não lembrei</BotaoVermelho>
-              <BotaoAmarelo data-test="partial-btn" onClick={() => esconderTudo(Quase, i)} >Quase não lembrei</BotaoAmarelo>
-              <BotaoVerde data-test="zap-btn" onClick={() => esconderTudo(Certo, i)}>Zap!</BotaoVerde>
-              <BotaoCinza>OI</BotaoCinza>
+              <BotaoVermelho data-test="no-btn" onClick={() => esconderTudo(Errado, i, '#FF3030')} >Não lembrei</BotaoVermelho>
+              <BotaoAmarelo data-test="partial-btn" onClick={() => esconderTudo(Quase, i, '#FF922E')} >Quase não lembrei</BotaoAmarelo>
+              <BotaoVerde data-test="zap-btn" onClick={() => esconderTudo(Certo, i, '#2FBE34')}>Zap!</BotaoVerde>
+              {/* <BotaoCinza>OI</BotaoCinza> */}
             </Botoes>
           </CaixaPerguntaAberta>
         )}
 
         {resultado && cardsRespondidas.includes(i) && (
           <CaixaPerguntaFechada>
-          <PerguntasTexto data-test="flashcard-text">Pergunta {i + 1}</PerguntasTexto>
+          <PerguntasTexto style={{color: errados.includes(i) && '#FF3030' || quases.includes(i) && '#FF922E' || certos.includes(i) && '#2FBE34'}} sublinhar={cardsRespondidas.includes(i)} data-test="flashcard-text">Pergunta {i + 1}</PerguntasTexto>
           <img alt='' 
           data-test={errados.includes(i) && 'no-icon' || quases.includes(i) && 'partial-icon' || certos.includes(i) && 'zap-icon'}
           src={errados.includes(i) && Errado || quases.includes(i) && Quase || certos.includes(i) && Certo}/>
@@ -155,8 +153,7 @@ font-family: 'Recursive';
   font-weight: 700;
   font-size: 16px;
   line-height: 19px;
-  color: #333333;
-  color: ${props => props.cor}
+  text-decoration: ${props => props.sublinhar && 'line-through'};
 `;
 const PerguntasImagem = styled.img`
 position: absolute;
@@ -236,21 +233,21 @@ width: 90px;
   margin-left: 5px;
 background-color: #FF3030;
 `;
-const BotaoCinza = styled.button`
-width: 90px;
-  font-family: 'Recursive';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #FFFFFF;
-  border-radius: 5px;
-  border: 1px solid;
-  padding:5px;
-  margin-left: 5px;
-background-color: #333333;
-`;
+// const BotaoCinza = styled.button`
+// width: 90px;
+//   font-family: 'Recursive';
+//   font-style: normal;
+//   font-weight: 400;
+//   font-size: 12px;
+//   line-height: 14px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   text-align: center;
+//   color: #FFFFFF;
+//   border-radius: 5px;
+//   border: 1px solid;
+//   padding:5px;
+//   margin-left: 5px;
+// background-color: #333333;
+// `;
