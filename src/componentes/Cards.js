@@ -16,7 +16,6 @@ export default function Cards({ cards, setRespondidas, respondidas }) {
   const [resultado, setResultado] = useState (false)    //se o resultao vai aparecer
   const [botaoResultado, setBotaoResultado] = useState ('')                   //define botao resultado da resposta
   const [cardsRespondidas, setCardsRespondidas] = useState([])
-  const [corResul, setCorResul] = useState('#333333');
   
 
   const [errados, setErrados] = useState([]);
@@ -36,7 +35,7 @@ export default function Cards({ cards, setRespondidas, respondidas }) {
     setResposta(true)
   }
 
-  function esconderTudo(botaoResultado, i, cor) {
+  function esconderTudo(botaoResultado, i) {
     setResultado (true)
     setPergunta(false)
     setResposta(false)
@@ -54,20 +53,19 @@ export default function Cards({ cards, setRespondidas, respondidas }) {
     } 
 
     setRespondidas(respondidas + 1)
-    setCorResul(cor)
   }
   return (
     <>
 
       {cards.map((c, i) => <>
         {numeroCards !== (i + 1) && !arrayCards.includes(i+1) && (<CaixaPerguntaFechada data-test="flashcard" onClick={() => addNumerosCards(i + 1)}>
-          <PerguntasTexto data-test="flashcard-text">Pergunta {i + 1}</PerguntasTexto>
+          <PerguntasTexto data-test="flashcard-text" >Pergunta {i + 1}</PerguntasTexto>
           <img alt='' data-test="play-btn" src={SetaPlay} />
         </CaixaPerguntaFechada>)}
 
         {pergunta && numeroCards == (i + 1) && (
           <CaixaPerguntaAberta>
-            <h1 data-test="flashcard-text">{c.question}</h1>
+            <h1 data-test="flashcard-text" >{c.question}</h1>
             <PerguntasImagem data-test="turn-btn" onClick={() => mostrarResposta()} src={SetaVirar} />
           </CaixaPerguntaAberta>
         )}
@@ -76,9 +74,9 @@ export default function Cards({ cards, setRespondidas, respondidas }) {
           <CaixaPerguntaAberta>
             <h1 data-test="flashcard-text">{c.answer}</h1>
             <Botoes>
-              <BotaoVermelho data-test="no-btn" onClick={() => esconderTudo(Errado, i, '#FF3030')} >Não lembrei</BotaoVermelho>
-              <BotaoAmarelo data-test="partial-btn" onClick={() => esconderTudo(Quase, i, '#FF922E')} >Quase não lembrei</BotaoAmarelo>
-              <BotaoVerde data-test="zap-btn" onClick={() => esconderTudo(Certo, i, '#2FBE34')}>Zap!</BotaoVerde>
+              <BotaoVermelho data-test="no-btn" onClick={() => esconderTudo(Errado, i)} >Não lembrei</BotaoVermelho>
+              <BotaoAmarelo data-test="partial-btn" onClick={() => esconderTudo(Quase, i)} >Quase não lembrei</BotaoAmarelo>
+              <BotaoVerde data-test="zap-btn" onClick={() => esconderTudo(Certo, i)}>Zap!</BotaoVerde>
               {/* <BotaoCinza>OI</BotaoCinza> */}
             </Botoes>
           </CaixaPerguntaAberta>
@@ -86,45 +84,20 @@ export default function Cards({ cards, setRespondidas, respondidas }) {
 
         {resultado && cardsRespondidas.includes(i) && (
           <CaixaPerguntaFechada>
-          <PerguntasTexto style={{color: errados.includes(i) && '#FF3030' || quases.includes(i) && '#FF922E' || certos.includes(i) && '#2FBE34'}} sublinhar={cardsRespondidas.includes(i)} data-test="flashcard-text">Pergunta {i + 1}</PerguntasTexto>
+          <PerguntasTexto 
+          corNo={errados.includes(i)} corPartial={quases.includes(i)} corZap={certos.includes(i)}
+          sublinhar={cardsRespondidas.includes(i)} 
+          data-test="flashcard-text">Pergunta {i + 1}</PerguntasTexto>
           <img alt='' 
           data-test={errados.includes(i) && 'no-icon' || quases.includes(i) && 'partial-icon' || certos.includes(i) && 'zap-icon'}
           src={errados.includes(i) && Errado || quases.includes(i) && Quase || certos.includes(i) && Certo}/>
         </CaixaPerguntaFechada>
         )}
 
-        {/* <CaixaPerguntaFechada onClick={() => console.log(c.question)}>
-          <PerguntasTexto>Pergunta {i + 1}</PerguntasTexto>
-          <img alt='' src={Certo} />
-        </CaixaPerguntaFechada> */}
       </>
+
       )}
 
-
-      {/* <CaixaPerguntaFechada>
-                <PerguntasTexto>Pergunta 1</PerguntasTexto>
-                <img alt='' src={Certo} />
-            </CaixaPerguntaFechada>
-
-            <CaixaPerguntaFechada>
-                <PerguntasTexto>Pergunta 1</PerguntasTexto>
-                <img alt='' src={Quase} />
-            </CaixaPerguntaFechada>
-
-            <CaixaPerguntaFechada>
-                <PerguntasTexto>Pergunta 1</PerguntasTexto>
-                <img alt='' src={Errado} />
-            </CaixaPerguntaFechada>
-
-            <CaixaPerguntaAberta>
-                <h1>JSX é uma sintaxe para escrever HTML dentro do JS</h1>
-                <Botoes>
-                    <BotaoVermelho>Não lembrei</BotaoVermelho>
-                    <BotaoAmarelo>Quase não lembrei</BotaoAmarelo>
-                    <BotaoVerde>Zap!</BotaoVerde>
-                    <BotaoCinza>OI</BotaoCinza>
-                </Botoes>
-            </CaixaPerguntaAberta> */}
     </>
   )
 }
@@ -154,6 +127,7 @@ font-family: 'Recursive';
   font-size: 16px;
   line-height: 19px;
   text-decoration: ${props => props.sublinhar && 'line-through'};
+  color: ${props => props.corNo && '#FF3030'} ${props => props.corPartial && '#FF922E'} ${props => props.corZap && '#2FBE34'};
 `;
 const PerguntasImagem = styled.img`
 position: absolute;
@@ -233,21 +207,3 @@ width: 90px;
   margin-left: 5px;
 background-color: #FF3030;
 `;
-// const BotaoCinza = styled.button`
-// width: 90px;
-//   font-family: 'Recursive';
-//   font-style: normal;
-//   font-weight: 400;
-//   font-size: 12px;
-//   line-height: 14px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   text-align: center;
-//   color: #FFFFFF;
-//   border-radius: 5px;
-//   border: 1px solid;
-//   padding:5px;
-//   margin-left: 5px;
-// background-color: #333333;
-// `;
