@@ -31,7 +31,8 @@ export default function FlashCards( {
 
                         <PerguntasTexto data-test="flashcard-text">Pergunta {i + 1}</PerguntasTexto>
                         <img alt='' data-test="play-btn" src={SetaPlay} onClick={() => addNumerosCards(i + 1)} />
-                    </CaixaPerguntaFechada>)}
+                    </CaixaPerguntaFechada>
+                )}
 
                 {pergunta && numeroCards == (i + 1) && (
                     <CaixaPerguntaAberta key={i}>

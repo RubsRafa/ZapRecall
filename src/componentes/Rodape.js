@@ -4,9 +4,6 @@ import Quase from '../zaprecall/assets/img/icone_quase.png'
 import Errado from '../zaprecall/assets/img/icone_erro.png'
 import Party from '../zaprecall/assets/img/party.png'
 import Sad from '../zaprecall/assets/img/sad.png'
-import { useEffect } from "react"
-
-import { useState } from "react"
 
 export default function Rodape({ cards, respondidas, iconeResposta }) {
 
@@ -27,7 +24,7 @@ export default function Rodape({ cards, respondidas, iconeResposta }) {
             {respondidas}/{cards.length} CONCLUÍDOS
             <Respostas>
                 {iconeResposta.map((i) => <img alt=""
-                    data-test={i === Certo && 'no-icon' || i === Quase && 'partial-icon' || i === Errado && 'zap-icon'}
+                    data-test={i === Errado && 'no-icon' || i === Quase && 'partial-icon' || i === Certo && 'zap-icon'}
                     src={i} />)}
             </Respostas>
 
