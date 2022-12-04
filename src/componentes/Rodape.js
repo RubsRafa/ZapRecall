@@ -2,15 +2,33 @@ import styled from "styled-components"
 import Certo from '../zaprecall/assets/img/icone_certo.png'
 import Quase from '../zaprecall/assets/img/icone_quase.png'
 import Errado from '../zaprecall/assets/img/icone_erro.png'
+import Party from '../zaprecall/assets/img/party.png'
+import Sad from '../zaprecall/assets/img/sad.png'
+import { useEffect } from "react"
+
+import { useState } from "react"
 
 export default function Rodape({ cards, respondidas, iconeResposta }) {
+
     return (
         <Footer data-test="footer">
+            <Respostas>
+            {(respondidas/cards.length === 1) && (iconeResposta.includes(Errado)) && <img src={Sad} alt='' />}
+            {(respondidas/cards.length === 1) && (iconeResposta.includes(Errado)) && <Negrito data-test="finish-text">Putz...</Negrito>}
+
+            {(respondidas/cards.length === 1) && (!iconeResposta.includes(Errado)) && <img src={Party} alt='' />}
+            {(respondidas/cards.length === 1) && (!iconeResposta.includes(Errado)) && <Negrito data-test="finish-text">Parabéns!</Negrito>}
+            </Respostas>
+
+            {(respondidas/cards.length === 1) && (iconeResposta.includes(Errado)) && <TextoBonus data-test="finish-text">Ainda faltam alguns...Mas não desanime!</TextoBonus>}
+            {(respondidas/cards.length === 1) && (!iconeResposta.includes(Errado)) && <TextoBonus data-test="finish-text">Você não esqueceu de nenhum flashcard!</TextoBonus>}
+
+
             {respondidas}/{cards.length} CONCLUÍDOS
             <Respostas>
-                {iconeResposta.map((i) => <img 
-                data-test={i == Certo && 'no-icon' || i == Quase && 'partial-icon' || i == Errado && 'zap-icon'}
-                src={i} />)}
+                {iconeResposta.map((i) => <img alt=""
+                    data-test={i === Certo && 'no-icon' || i === Quase && 'partial-icon' || i === Errado && 'zap-icon'}
+                    src={i} />)}
             </Respostas>
 
         </Footer>
@@ -38,4 +56,12 @@ margin-top: 5px;
 display: flex;
 width: 100%;
 justify-content: center;
+`;
+const TextoBonus = styled.div`
+margin: 10px auto;
+text-align: center;
+width: 220px;
+`;
+const Negrito = styled.p`
+font-weight: 700;
 `;
